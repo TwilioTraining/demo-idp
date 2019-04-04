@@ -2,6 +2,9 @@
 
 Demo Identity Provider for Flex SSO integration challenge.
 
+*Note: At the moment this needs to be executed from Twilio Training's C9 virtual environment.*
+
+
 ## Installation
 
 Simply clone this repository and run the install script:
