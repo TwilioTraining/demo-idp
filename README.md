@@ -2,24 +2,20 @@
 
 Demo Identity Provider for Flex SSO integration challenge.
 
-*Note: At the moment this needs to be executed from Twilio Training's C9 virtual environment.*
-
 
 ## Installation
 
-Simply clone this repository and run the install script:
+Simply clone this repository and install dependencies:
 
 ```
 cd demo-idp
-./install.sh
+npm install
 ```
-
-Then follow the instructions returned by the script.
 
 
 ## Startup
 
-Start the Identity Provider server by running:
+Start the Identity Provider server and follow instructions the script returns:
 
 ```
 npm start
