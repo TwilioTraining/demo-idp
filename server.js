@@ -113,8 +113,8 @@ ngrok.connect(port)
         }, {
           id: "roles",
           optional: false,
-          displayName: 'User Roles',
-          description: 'The roles of user',
+          displayName: 'Flex User Role',
+          description: 'The role of user',
           options: ['agent', 'admin', 'supervisor']
         }],
         user: {
