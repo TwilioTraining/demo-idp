@@ -118,7 +118,7 @@ ngrok.connect(port)
           options: ['agent', 'admin', 'supervisor']
         }],
         user: {
-          userName: 'jowling',
+          userName: 'joe.owling',
           email: 'joe.owling@example.com',
           full_name: 'Joe Owling'
         }
