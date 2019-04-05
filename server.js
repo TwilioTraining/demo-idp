@@ -3,7 +3,7 @@ const fs = require("fs");
 const ngrok = require('ngrok');
 
 const forge = require('node-forge');
-forge.options.usePureJavaScript = true; 
+forge.options.usePureJavaScript = true;
 
 const readline = require('readline-sync');
 
@@ -20,56 +20,56 @@ const c_reset = "\u001b[0m";
 const getAccountSid = async () => {
   const account_sid = readline.question(`${c_green}? \u001b[0m\u001b[1mTwilio Flex Account SID${c_reset} `);
   config.account_sid = account_sid;
-  console.log(JSON.stringify(config))
-  fs.writeFileSync(config_file, JSON.stringify(config), function(err, data) {
+  fs.writeFileSync(config_file, JSON.stringify(config), function (err, data) {
     if (err) console.log(err);
   });
 }
-if(!config.account_sid || !config.account_sid.match(/^AC[0-9a-z]{32}$/)) getAccountSid();
+if (!config.account_sid || !config.account_sid.match(/^AC[0-9a-z]{32}$/)) getAccountSid();
 
 // x509 Certificate
 try {
   // if key file doesn't exist, regenerate cert & key
-  if (! (fs.existsSync(key_file) && fs.existsSync(cert_file))) {
+  if (!(fs.existsSync(key_file) && fs.existsSync(cert_file))) {
     console.log("Generating x509 certificate...");
     var pki = forge.pki;
     var keys = pki.rsa.generateKeyPair(2048);
     var cert = pki.createCertificate();
-    
+
     cert.publicKey = keys.publicKey;
     cert.serialNumber = '01';
     cert.validity.notBefore = new Date();
     cert.validity.notAfter = new Date();
-    cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear()+1);
+    cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear() + 1);
     var attrs = [
-         {name:'commonName',value:'Test Identity Provider'}
-        ,{name:'countryName',value:'US'}
-        ,{shortName:'ST',value:'California'}
-        ,{name:'localityName',value:'San Francisco'}
-        ,{name:'organizationName',value:'Twilio'}
-        ,{shortName:'OU',value:'Test Identity Provider'}
+      { name: 'commonName', value: 'Test Identity Provider' }
+      , { name: 'countryName', value: 'US' }
+      , { shortName: 'ST', value: 'California' }
+      , { name: 'localityName', value: 'San Francisco' }
+      , { name: 'organizationName', value: 'Twilio' }
+      , { shortName: 'OU', value: 'Test Identity Provider' }
     ];
     cert.setSubject(attrs);
     cert.setIssuer(attrs);
     cert.sign(keys.privateKey);
-    
+
     const pem_key = pki.privateKeyToPem(keys.privateKey);
     const pem_cert = pki.certificateToPem(cert);
-    
-    fs.writeFileSync(cert_file, pem_cert, function(err, data) {
+
+    fs.writeFileSync(cert_file, pem_cert, function (err, data) {
       if (err) console.log(err);
     });
-    fs.writeFileSync(key_file, pem_key, function(err, data) {
+    fs.writeFileSync(key_file, pem_key, function (err, data) {
       if (err) console.log(err);
     });
   }
-} catch(err) {
+} catch (err) {
   console.error(err)
   process.exit()
 }
 
 const pem_cert = fs.readFileSync(cert_file, "utf8");
-ngrok.connect(7000)
+const port = parseInt(process.env.PORT) || 7000;
+ngrok.connect(port)
   .then(url => {
     console.log("SSO Setup Instructions:\n");
     console.log(" 1. Open your Twilio console at Flex -> Single Sign-On");
