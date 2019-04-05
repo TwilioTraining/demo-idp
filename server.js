@@ -19,6 +19,10 @@ const c_reset = "\u001b[0m";
 // AccountSid
 const getAccountSid = async () => {
   const account_sid = readline.question(`${c_green}? \u001b[0m\u001b[1mTwilio Flex Account SID${c_reset} `);
+  if (!account_sid.match(/^AC[0-9a-z]{32}$/)) {
+    console.error("Not a valid Account SID. Aborting...");
+    process.exit()
+  }
   config.account_sid = account_sid;
   fs.writeFileSync(config_file, JSON.stringify(config), function (err, data) {
     if (err) console.log(err);
@@ -114,7 +118,7 @@ ngrok.connect(port)
           options: ['agent', 'admin', 'supervisor']
         }],
         user: {
-          userName: 'joe.owling@example.com',
+          userName: 'jowling',
           email: 'joe.owling@example.com',
           full_name: 'Joe Owling'
         }
