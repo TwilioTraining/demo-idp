@@ -77,7 +77,7 @@ ngrok.connect(port)
   .then(url => {
     console.log("SSO Setup Instructions:\n");
     console.log(" 1. Open your Twilio console at Flex -> Single Sign-On");
-    console.log("    (or open this link https://www.twilio.com/console/flex/users/single-sign-on)");
+    console.log("    (or open this link https://www.twilio.com/console/flex/single-sign-on)");
     console.log(" 2. Copy and paste the following details into the page");
     console.log(`\n${c_green}Friendly Name${c_reset}`);
     console.log("Demo IdP");
@@ -87,6 +87,8 @@ ngrok.connect(port)
     console.log(`${url}/entityid`);
     console.log(`\n${c_green}Single Sign-On URL${c_reset}`);
     console.log(`${url}/saml/sso`);
+    console.log(`\n${c_green}Twilio SSO URL${c_reset}`);
+    console.log(`Uses iam.twilio.com`);
     console.log(`\n 3. Head over to flex.twilio.com and login using SSO\n`);
     process.stdout.write("IdP server is now running...");
 
@@ -94,8 +96,8 @@ ngrok.connect(port)
     process.stdout.write = process.stderr.write = log.write.bind(log);
 
     runServer({
-      acsUrl: `https://preview.twilio.com/iam/Accounts/${config.account_sid}/saml2`,
-      audience: `https://preview.twilio.com/iam/Accounts/${config.account_sid}/saml2`,
+      acsUrl: `https://iam.twilio.com/v1/Accounts/${config.account_sid}/saml2`,
+      audience: `https://iam.twilio.com/v1/Accounts/${config.account_sid}/saml2/metadata`,
       issuer: `${url}/entityid`,
       config: {
         metadata: [{
